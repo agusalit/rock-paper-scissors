@@ -4,24 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Rock Paper Scissors</h1>
-    <div class="choices">
-        <p id="humanChoice"></p>
-        <p id="computerChoice"></p>
+    <div class="humanChoice">
+        <button onclick="playRound('rock')">✊</button>
+        <button onclick="playRound('paper')">✋</button>
+        <button onclick="playRound('scissors')">✌️</button>
     </div>
-    <h2>Round Winner</h2>
-        <p id="roundWinner"></p>
-    <h2>Total Score</h2>
-        <div class="score">
-            <p id="humanPoint"></p>
-            <p id="computerPoint"></p>
-            <p id="gameWinner"></p>
-        </div>
-    <div class="button-group">
-        <button id="next">Next</button>
-        <button id="restart" style="display: none;">Start Over</button>
+    <div class="choice">
+        <p id="humanDisplay">Human: </p>
+        <p id="computerDisplay">Computer: </p>
+    </div>
+    <div class="winner">
+        <p id="winnerDisplay"></p>
+    </div>
+    <div class="score">
+        <p id="humanScore">Human Score: 
+            <span id="humanScoreDisplay">0</span>
+        </p>
+        <p id="computerScore">Computer Score:
+            <span id="computerScoreDisplay">0</span>
+        </p>
     </div>
     <script src="script.js"></script>
 </body>
