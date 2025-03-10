@@ -1,118 +1,52 @@
-document.getElementById("next").addEventListener("click", playRound);
-document.getElementById("restart").addEventListener("click", restartGame);
-
+const choices = ['rock', 'paper', 'scissors'];
+const humanDisplay = document.querySelector('#humanDisplay');
+const computerDisplay = document.querySelector('#computerDisplay');
+const winnerDisplay = document.querySelector('#winnerDisplay');
+const humanScoreDisplay = document.querySelector('#humanScoreDisplay');
+const computerScoreDisplay = document.querySelector('#computerScoreDisplay');
 let humanScore = 0;
 let computerScore = 0;
-let gameRound = 0;
 
-function playRound(){
-    let getHumanChoice = prompt("Enter Rock, Paper, or Scissors");
-    let getComputerChoice = Math.floor(Math.random() * 3) + 1;
+function playRound(humanChoice){
 
-    function generateComputerChoice(){
-        if(getComputerChoice === 1){
-            return "rock";
-        } else if(getComputerChoice === 2){
-            return "paper";
-        } else {
-            return "scissors";
-        }
-    }
-
-    let humanChoice = getHumanChoice.toLowerCase();
-    let computerChoice = generateComputerChoice();
-
-    document.getElementById("humanChoice").innerHTML = humanChoice;
-    document.getElementById("computerChoice").innerHTML = computerChoice;
+    const computerChoice = choices[Math.floor(Math.random() * 3)];
+    let winner = '';
 
     if(humanChoice === computerChoice){
-        document.getElementById("humanPoint").innerHTML = "Human: " + humanScore;
-        document.getElementById("computerPoint").innerHTML = "Computer: " + computerScore;
-        document.getElementById("roundWinner").innerHTML = "It's a tie!";
-        gameRound += 1;
-        if(gameRound === 1){
-            document.getElementById("next").textContent = "Next Round";
-        }
-        if(gameRound === 5){
-            gameWinner();
-        }
-    } else if(humanChoice === "rock" && computerChoice === "scissors"){
-        humanScore += 1;
-        document.getElementById("humanPoint").innerHTML = "Human: " + humanScore;
-        document.getElementById("computerPoint").innerHTML = "Computer: " + computerScore;
-        document.getElementById("roundWinner").innerHTML = "Human wins!";
-        gameRound += 1;
-        if(gameRound === 1){
-            document.getElementById("next").textContent = "Next Round";
-        }
-        if(gameRound === 5){
-            gameWinner();
-        }
-    } else if(humanChoice === "paper" && computerChoice === "rock"){
-        humanScore += 1;
-        document.getElementById("humanPoint").innerHTML = "Human: " + humanScore;
-        document.getElementById("computerPoint").innerHTML = "Computer: " + computerScore;
-        document.getElementById("roundWinner").innerHTML = "Human wins!";
-        gameRound += 1;
-        if(gameRound === 1){
-            document.getElementById("next").textContent = "Next Round";
-        }
-        if(gameRound === 5){
-            gameWinner();
-        }
-    } else if(humanChoice === "scissors" && computerChoice === "paper"){
-        humanScore += 1;
-        document.getElementById("humanPoint").innerHTML = "Human: " + humanScore;
-        document.getElementById("computerPoint").innerHTML = "Computer: " + computerScore;
-        document.getElementById("roundWinner").innerHTML = "Human wins!";
-        gameRound += 1;
-        if(gameRound === 1){
-            document.getElementById("next").textContent = "Next Round";
-        }
-        if(gameRound === 5){
-            gameWinner();
-        }
-    } else {
-        computerScore += 1;
-        document.getElementById("humanPoint").innerHTML = "Human: " + humanScore;
-        document.getElementById("computerPoint").innerHTML = "Computer: " + computerScore;
-        document.getElementById("roundWinner").innerHTML = "Computer wins!";
-        gameRound += 1;
-        if(gameRound === 1){
-            document.getElementById("next").textContent = "Next Round";
-        }
-        if(gameRound === 5){
-            gameWinner();
-        }
-    }
-}
-function gameWinner(){
-        if(humanScore > computerScore){
-            document.getElementById("next").disabled = true;
-            document.getElementById("restart").style.display = "block";
-            document.getElementById("gameWinner").innerHTML = "Human wins the game!";
-        } else if(humanScore < computerScore){
-            document.getElementById("next").disabled = true;
-            document.getElementById("restart").style.display = "block";
-            document.getElementById("gameWinner").innerHTML = "Computer wins the game!";
-        } else {
-            document.getElementById("next").disabled = true;
-            document.getElementById("restart").style.display = "block";
-            document.getElementById("gameWinner").innerHTML = "It's a tie!";
+        winner = 'It\'s a Tie!';
+    }else{
+        switch(humanChoice){
+            case 'rock':
+                winner = (computerChoice === 'scissors') ? "You Win!" : "Computer Win!";
+                break;
+
+            case 'paper':
+                winner = (computerChoice === 'rock') ? "You Win!" : "Computer Win!";
+                break;
+
+            case 'scissors':
+                winner = (computerChoice === 'paper') ? "You Win!" : "Computer Win!";
+                break;
         }
     }
 
-function restartGame(){
-    humanScore = 0;
-    computerScore = 0;
-    gameRound = 0;
-    document.getElementById("humanPoint").innerHTML = "Human: " + humanScore;
-    document.getElementById("computerPoint").innerHTML = "Computer: " + computerScore;
-    document.getElementById("gameWinner").innerHTML = "";
-    document.getElementById("next").disabled = false;
-    document.getElementById("next").textContent = "Start Game";
-    document.getElementById("restart").style.display = "none";
-}
+    humanDisplay.textContent = `Human: ${humanChoice}`;
+    computerDisplay.textContent = `Computer: ${computerChoice}`;
+    winnerDisplay.textContent = winner;
 
-document.getElementById("next").textContent = "Start Game";
-document.getElementById("restart").style.display = "none";
+    winnerDisplay.classList.remove("win", "lose");
+
+    switch(winner){
+        case "You Win!":
+            winnerDisplay.classList.add("win");
+            humanScore++
+            humanScoreDisplay.textContent = humanScore;
+            break;
+
+        case "Computer Win!":
+            winnerDisplay.classList.add("lose");
+            computerScore++
+            computerScoreDisplay.textContent = computerScore;
+            break;
+    }
+}
