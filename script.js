@@ -6,9 +6,16 @@ const humanScoreDisplay = document.querySelector('#humanScoreDisplay');
 const computerScoreDisplay = document.querySelector('#computerScoreDisplay');
 let humanScore = 0;
 let computerScore = 0;
+let roundNumber = 0;
+const totalRounds = 5;
 
 function playRound(humanChoice){
+    if(roundNumber >= totalRounds){
+        endGame();
+        return;
+    }
 
+    roundNumber++;
     const computerChoice = choices[Math.floor(Math.random() * 3)];
     let winner = '';
 
@@ -33,7 +40,6 @@ function playRound(humanChoice){
     humanDisplay.textContent = `Human: ${humanChoice}`;
     computerDisplay.textContent = `Computer: ${computerChoice}`;
     winnerDisplay.textContent = winner;
-
     winnerDisplay.classList.remove("win", "lose");
 
     switch(winner){
@@ -49,4 +55,21 @@ function playRound(humanChoice){
             computerScoreDisplay.textContent = computerScore;
             break;
     }
+
+    if(roundNumber === totalRounds){
+        endGame();
+    }
+}
+
+function endGame() {
+    let gameMessage;
+
+    if(humanScore > computerScore){
+        gameMessage = "Game Over! You are the Winner!";
+    }else if(computerScore > humanScore){
+        gameMessage = "Game Over! Computer is the winner!";
+    }else {
+        gameMessage = "Game Over! It's a Tie!";
+    }
+    winnerDisplay.textContent = gameMessage;
 }
